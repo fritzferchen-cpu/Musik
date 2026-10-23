@@ -1,0 +1,602 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mas Que Nada Bodypercussion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: Klassenzimmer-Projektion — oben Reiter, darunter eine große Bühne mit 8 Schlag-Kacheln, die im Takt aufleuchten. */
+:root{
+  --bg:#eef3f0; --surface:#ffffff; --ink:#0f1f1a; --muted:#53655e; --line:#cfdad5;
+  --accent:#0b6e4f; --hl:#f2b705;
+  --c-st:#3446c4; --c-pa:#1d9152; --c-kl:#e3a400; --c-sn:#bf3485; --c-br:#e0532f; --c-sc:#15879c;
+  --on-dark:#ffffff; --on-light:#1d1600;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1512; --surface:#15221d; --ink:#e8f1ed; --muted:#9db1a9; --line:#2a3b35;
+  --accent:#44c99a; --hl:#ffcc33; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1512; --surface:#15221d; --ink:#e8f1ed; --muted:#9db1a9; --line:#2a3b35;
+  --accent:#44c99a; --hl:#ffcc33; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px}
+.brand{font-family:var(--display);font-weight:900;font-size:18px;letter-spacing:-.01em;line-height:1.1}
+.brand small{display:block;font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+nav button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:700;font-size:15px}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+main{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:22px 60px}
+.h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,3vw,32px);letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+.lead{color:var(--muted);max-width:68ch;margin:0 0 22px}
+.eyebrow{font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0}
+
+/* Kacheln */
+.steps{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:clamp(6px,1vw,12px)}
+.tile{position:relative;border-radius:var(--r);background:var(--elc);color:var(--elon);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;aspect-ratio:1/1.35;padding:6px 6px 28px;opacity:.5;transition:transform 70ms ease-out,opacity 70ms;min-width:0}
+.tile .w{font-family:var(--display);font-weight:700;font-size:clamp(11px,1.5vw,21px);line-height:1;text-align:center;overflow-wrap:anywhere}
+.tile .n{position:absolute;bottom:6px;font-weight:700;font-size:clamp(12px,1.4vw,18px);opacity:.9}
+.tile.rest{background:transparent;border:2px dashed var(--line);color:var(--muted)}
+.tile.rest .w{font-size:clamp(18px,2.4vw,32px)}
+.tile.on{opacity:1;transform:scale(1.07);box-shadow:0 0 0 4px var(--hl)}
+.tile.rest.on{border-color:var(--hl);box-shadow:none}
+.steps.idle .tile{opacity:.85}
+@media (max-width:640px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}.tile .w{font-size:13px}}
+
+/* Mitspielen */
+.live-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-bottom:22px}
+.clock{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.4vw,40px);font-variant-numeric:tabular-nums;line-height:1}
+.clock .dim{color:var(--muted);font-size:.5em}
+.segbar{flex:1 1 320px;min-width:0;position:relative;display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.seg{border:0;padding:0 6px;background:var(--elc);color:var(--elon);font-size:11px;font-weight:700;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;opacity:.55;border-right:1px solid var(--bg)}
+.seg.cur{opacity:1}
+.playhead{position:absolute;top:0;bottom:0;width:3px;background:var(--ink);pointer-events:none;left:0}
+.now{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:18px}
+.now h1{font-family:var(--display);font-weight:900;font-size:clamp(34px,6vw,76px);line-height:.95;letter-spacing:-.02em;margin:6px 0 8px;text-wrap:balance}
+.cue{font-size:clamp(17px,1.8vw,22px);margin:0;max-width:52ch}
+.pulse{width:28px;height:28px;border-radius:50%;background:var(--line);transition:background 60ms}
+.pulse.on{background:var(--hl)}
+.pulse.one{background:var(--accent)}
+.next{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.next b{font-family:var(--display);font-weight:700}
+.next.soon{border-color:var(--hl);box-shadow:0 0 0 3px var(--hl)}
+.dots{display:flex;gap:5px}
+.dot{width:16px;height:16px;border-radius:5px;background:var(--elc)}
+.dot.rest{background:transparent;border:2px dashed var(--line)}
+.count{margin-left:auto;font-family:var(--display);font-weight:900;font-size:24px;font-variant-numeric:tabular-nums}
+.controls{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn kbd{font-family:var(--body);font-size:11px;border:1px solid currentColor;border-radius:4px;padding:0 4px;opacity:.7}
+.bpm{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:2px}
+.bpm button{border:0;background:transparent;padding:8px 12px;font-weight:700}
+.bpm span{min-width:72px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.toast{color:var(--muted);font-size:15px;min-height:1.5em;margin-top:8px}
+.hint{font-size:14px;color:var(--muted);margin-top:10px}
+
+/* Elemente */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.swatch{border-radius:10px;background:var(--elc);color:var(--elon);font-family:var(--display);font-weight:900;font-size:26px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center}
+.swatch .pic{width:84px;height:100px;flex:none}
+.pic{fill:none;stroke:currentColor;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.pic circle:first-child{fill:none}
+.pic .hl{fill:currentColor;stroke:none;opacity:.35}
+.pic .fx{stroke-width:4;opacity:.85}
+.tile .pic{width:60%;height:auto;max-height:52%;margin-bottom:6px}
+.tile.rest .pic{display:none}
+.card h3{margin:0;font-family:var(--display);font-weight:700;font-size:19px}
+.card p{margin:0}
+.inst{font-size:14px;color:var(--muted)}
+.card .btn{align-self:flex-start;margin-top:auto}
+
+/* Grooves */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
+.chip i{width:12px;height:12px;border-radius:4px;background:var(--elc);display:inline-block}
+.chip[aria-pressed="true"]{border-color:var(--ink)}
+.prac-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:18px}
+.prac-row label{display:flex;align-items:center;gap:10px;font-weight:700}
+input[type=range]{accent-color:var(--accent);width:180px}
+.easy{margin-top:16px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--surface);border-radius:0 10px 10px 0;max-width:70ch}
+.countrow{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:clamp(6px,1vw,12px);margin-bottom:6px;color:var(--muted);font-weight:700;text-align:center}
+@media (max-width:640px){.countrow{display:none}}
+
+/* Ablauf */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td input{width:72px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums}
+.gtag{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.gtag i{width:12px;height:12px;border-radius:4px;background:var(--elc)}
+.cal{margin-top:16px;padding:18px;border:2px solid var(--hl);border-radius:var(--r);background:var(--surface)}
+.cal .big{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.4vw,26px);padding:18px 22px;width:100%;justify-content:center;margin-top:10px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:30px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;min-width:0}
+.panel h3{font-family:var(--display);font-weight:700;font-size:19px;margin:0 0 10px}
+.panel ol{margin:0;padding-left:1.3em;display:grid;gap:8px}
+.panel p{margin:0 0 10px}
+a{color:var(--accent);font-weight:700}
+
+.songbox{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:14px 16px;margin-bottom:20px;border:2px dashed var(--line);border-radius:var(--r);background:var(--surface)}
+.songbox.drag{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent)}
+.songbox.ready{border-style:solid;border-color:var(--accent)}
+.songbox .t{flex:1 1 260px;min-width:0}
+.songbox .t b{font-family:var(--display);font-weight:700;font-size:17px;overflow-wrap:anywhere}
+.songbox .t span{display:block;color:var(--muted);font-size:15px;max-width:72ch}
+.sb-actions{display:flex;flex-wrap:wrap;gap:6px}
+.btn.sm{padding:7px 10px;font-size:14px}
+.vh{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.spin{display:inline-block;width:14px;height:14px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.tile{transition:none}.tile.on{transform:none}}
+</style>
+
+<header class="top"><div class="top-in">
+  <div class="brand">Mas Que Nada<small>Bodypercussion · Klasse 6</small></div>
+  <nav role="tablist">
+    <button role="tab" data-tab="el" id="nav-el">Elemente</button>
+    <button role="tab" data-tab="gr" id="nav-gr">Grooves üben</button>
+    <button role="tab" data-tab="live" id="nav-live">Mitspielen</button>
+    <button role="tab" data-tab="ab" id="nav-ab">Ablauf &amp; Tipps</button>
+  </nav>
+</div></header>
+
+<main>
+<!-- MITSPIELEN -->
+<section id="tab-live" hidden>
+  <input type="file" id="songFile" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac,.flac" class="vh" tabindex="-1">
+  <div class="songbox" id="songBox"></div>
+  <div class="live-head">
+    <div class="clock"><span id="lvTime">0:00</span><span class="dim"> / <span id="lvEnd">2:41</span></span></div>
+    <div class="segbar" id="segBar"><div class="playhead" id="playhead"></div></div>
+  </div>
+  <div class="now">
+    <div>
+      <p class="eyebrow">Jetzt · <span id="lvPart">Intro</span></p>
+      <h1 id="lvGroove">Schnalz-Start</h1>
+      <p class="cue" id="lvCue"></p>
+    </div>
+    <div class="pulse" id="pulse" title="Grundschlag"></div>
+  </div>
+  <div class="steps" id="lvSteps"></div>
+  <div class="next" id="lvNext"></div>
+  <div class="controls">
+    <button class="btn" id="bPrev">◀ Teil zurück <kbd>←</kbd></button>
+    <button class="btn primary" id="bPlay">▶ Start <kbd>Leertaste</kbd></button>
+    <button class="btn" id="bNextPart">Teil vor ▶ <kbd>→</kbd></button>
+    <button class="btn" id="bTap">Tempo tippen <kbd>T</kbd></button>
+    <div class="bpm" id="bpmBox"><button id="bpmDown" aria-label="langsamer">−</button><span id="bpmVal">88 BPM</span><button id="bpmUp" aria-label="schneller">+</button></div>
+    <button class="btn" id="bReset">↺ Von vorn</button>
+    <button class="btn" id="bFull">Vollbild</button>
+  </div>
+  <div class="toast" id="toast" aria-live="polite"></div>
+  <p class="hint" id="lvHint"></p>
+</section>
+
+<!-- ELEMENTE -->
+<section id="tab-el" hidden>
+  <h2 class="h2">Die 6 Elemente</h2>
+  <p class="lead">Jedes Element ersetzt ein Instrument der Samba-Gruppe. Zuerst einzeln vormachen und nachmachen lassen, dann kombinieren. Die Farbe bleibt in der ganzen Präsentation gleich.</p>
+  <div class="cards" id="cards"></div>
+</section>
+
+<!-- GROOVES -->
+<section id="tab-gr" hidden>
+  <h2 class="h2">Grooves üben</h2>
+  <p class="lead">Jeder Groove dauert einen Takt mit acht Schlägen: gezählt „1 + 2 + 3 + 4 +“. Erst langsam mit Klick-Sounds üben, dann das Tempo steigern bis zum Song-Tempo.</p>
+  <div class="chips" id="chips"></div>
+  <div class="countrow"><span>1</span><span>+</span><span>2</span><span>+</span><span>3</span><span>+</span><span>4</span><span>+</span></div>
+  <div class="steps" id="prSteps"></div>
+  <div class="prac-row">
+    <button class="btn primary" id="prPlay">▶ Abspielen</button>
+    <button class="btn" id="prSong">Song-Tempo übernehmen</button>
+    <label for="prBpm">Tempo <input type="range" id="prBpm" min="60" max="140" step="2" value="84"> <span id="prBpmVal">84</span></label>
+    <label for="prClick"><input type="checkbox" id="prClick" checked> Zählklick</label>
+  </div>
+  <div class="easy" id="prEasy"></div>
+</section>
+
+<!-- ABLAUF -->
+<section id="tab-ab" hidden>
+  <h2 class="h2">Ablauf des Songs</h2>
+  <p class="lead">Abgestimmt auf die Originalaufnahme von Sergio Mendes &amp; Brasil '66 (1966, 2:38). Tempo, Schläge und die Startzeiten der Teile sind aus dieser Aufnahme gemessen. Der Song steht durchgehend bei etwa 88 BPM und schwankt leicht zwischen 86 und 89, die Kacheln folgen jedem einzelnen Schlag. Bei einer anderen Aufnahme die Zeiten einmal beim Hören neu einstellen. Eigene Zeiten werden in diesem Browser gespeichert.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Teil</th><th>Start</th><th>Groove</th><th>Was ist zu hören?</th></tr></thead>
+    <tbody id="abBody"></tbody>
+  </table></div>
+  <div class="controls">
+    <button class="btn primary" id="calStart">Zeiten beim Hören einstellen</button>
+    <button class="btn" id="abDefault">Standardzeiten wiederherstellen</button>
+    <a class="btn" href="https://www.youtube.com/results?search_query=Sergio+Mendes+Brasil+66+Mas+Que+Nada+1966" target="_blank" rel="noopener">Song auf YouTube suchen ↗</a>
+  </div>
+  <div class="cal" id="calBox" hidden>
+    <p class="eyebrow" id="calStep">Schritt 1</p>
+    <p id="calText" style="margin:4px 0 0"></p>
+    <button class="btn primary big" id="calBtn">Los</button>
+    <div class="controls"><button class="btn" id="calCancel">Abbrechen</button><span class="hint" style="margin:0">Tipp: Statt Klicken geht auch die Eingabetaste.</span></div>
+  </div>
+
+  <div class="cols">
+    <div class="panel">
+      <h3>Unterrichtsidee für 45 Minuten</h3>
+      <ol>
+        <li><b>Warm-up (5 Min.)</b> Elemente vormachen, die Klasse macht nach. Reiter „Elemente“.</li>
+        <li><b>Grooves (15 Min.)</b> Refrain- und Aufbau-Groove, erst die leichte Version bei ca. 70 BPM, dann bis zum Song-Tempo von 88 BPM steigern.</li>
+        <li><b>Hören (5 Min.)</b> Song einmal anhören. Die Klasse hebt die Hand, wenn ein neuer Teil beginnt.</li>
+        <li><b>Batucada in Gruppen (10 Min.)</b> Für das Finale: Gruppe 1 stampft, Gruppe 2 patscht, Gruppe 3 klopft die Brust. Zusammen ergibt das den Batucada-Groove.</li>
+        <li><b>Durchlauf (10 Min.)</b> Reiter „Mitspielen“ an die Wand werfen und den ganzen Song mitspielen.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Hintergrund für die Klasse</h3>
+      <p>„Mas Que Nada“ heißt ungefähr „Ach was!“ oder „Ach komm!“. Den Song schrieb der Brasilianer Jorge Ben, er erschien zuerst 1963 als Samba.</p>
+      <p>Sergio Mendes nahm ihn 1966 mit seiner Band Brasil '66 neu auf. Es war der erste Hit auf Portugiesisch in den US-Charts und machte brasilianische Musik weltweit bekannt.</p>
+      <p>In einer Samba-Gruppe (Bateria) spielen viele Trommeln gleichzeitig verschiedene Rhythmen. Genau das machen wir mit dem Körper nach.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+
+const BODY='<circle cx="50" cy="16" r="10"/><path d="M50 26V68"/>';
+const LEGS='<path d="M50 68L38 108M50 68L62 108"/>';
+const HL=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" class="hl"/>`;
+const ICON={
+  ST:BODY+'<path d="M50 36L36 58M50 36L64 58M50 68L38 108M50 68L66 84L64 100"/>'+HL(38,108,9)+'<path d="M26 112h-8M30 104l-6-5M50 104l6-5M46 112h8" class="fx"/>',
+  PA:BODY+LEGS+'<path d="M50 36L38 54L40 74M50 36L62 54L60 74"/>'+HL(40,76,8)+HL(60,76,8)+'<path d="M28 74h-7M31 66l-6-4M72 74h7M69 66l6-4" class="fx"/>',
+  KL:BODY+LEGS+'<path d="M50 36L32 44L48 50M50 36L68 44L52 50"/>'+HL(50,50,9)+'<path d="M50 36v-0M36 34l-5-5M64 34l5-5M30 52h-7M70 52h7" class="fx"/>',
+  SN:BODY+LEGS+'<path d="M50 36L30 42L24 24M50 36L70 42L76 24"/>'+HL(24,22,7)+HL(76,22,7)+'<path d="M14 18l-5-4M14 28h-6M86 18l5-4M86 28h6" class="fx"/>',
+  BR:BODY+LEGS+'<path d="M50 36L34 52L44 42M50 36L64 58"/>'+HL(44,42,8)+'<path d="M30 36l-6-3M30 44h-7" class="fx"/>',
+  SC:BODY+LEGS+'<path d="M50 36L36 58M50 36L64 58M47 20h6"/>'+HL(50,20,7)+'<path d="M66 12q6 4 0 8M72 8q10 8 0 16M34 12q-6 4 0 8M28 8q-10 8 0 16" class="fx"/>',
+};
+const pic=k=>`<svg class="pic" viewBox="0 0 100 120" aria-hidden="true">${ICON[k]}</svg>`;
+const EL={
+  ST:{name:'Stampfen',w:'Stampf',inst:'wie die Surdo (große Basstrommel)',how:'Abwechselnd rechter und linker Fuß fest auf den Boden. Knie locker lassen.',c:'--c-st',on:'--on-dark'},
+  PA:{name:'Patschen',w:'Patsch',inst:'wie das Tamborim (kleine Handtrommel)',how:'Mit flachen Händen auf die Oberschenkel, abwechselnd rechts und links.',c:'--c-pa',on:'--on-dark'},
+  KL:{name:'Klatschen',w:'Klatsch',inst:'wie die Caixa (Snare-Trommel)',how:'Hände vor der Brust, kurz und knackig. Nicht zu laut, der Song soll hörbar bleiben.',c:'--c-kl',on:'--on-light'},
+  SN:{name:'Schnipsen',w:'Schnips',inst:'wie das Agogô (Doppelglocke)',how:'Mit beiden Händen schnipsen. Wer nicht schnipsen kann: zwei Finger auf die Handfläche tippen.',c:'--c-sn',on:'--on-dark'},
+  BR:{name:'Brust-Klopfen',w:'Brust',inst:'wie die Repinique (hohe Trommel)',how:'Flache Hand auf die Brust, abwechselnd rechts und links. Fest, aber nicht wehtun!',c:'--c-br',on:'--on-dark'},
+  SC:{name:'Schnalzen',w:'Schnalz',inst:'wie ein Holzblock',how:'Mit der Zunge am Gaumen schnalzen, wie ein Pferdegetrappel. Mund leicht offen lassen, dann klingt es lauter.',c:'--c-sc',on:'--on-dark'},
+};
+const GR={
+  I:{name:'Schnalz-Start',c:'--c-sc',on:'--on-dark',steps:['SC',null,'SC',null,'SC',null,'SC',null],easy:'Gleichmäßig auf 1, 2, 3 und 4 schnalzen. Wer nicht schnalzen kann, tippt mit dem Finger auf den Tisch.'},
+  A:{name:'Refrain-Groove',c:'--c-kl',on:'--on-light',steps:['ST',null,'KL',null,'ST',null,'KL',null],easy:'Leichte Version: nur stampfen, rechts auf „1“, links auf „3“.'},
+  B:{name:'Aufbau-Groove',c:'--c-st',on:'--on-dark',steps:['ST',null,'PA','PA','ST',null,'KL',null],easy:'Leichte Version: Klatschen weglassen. Merksatz zum Mitsprechen: „Stampf – Patsch-patsch – Stampf – Klatsch“.'},
+  C:{name:'Leiser Groove',c:'--c-sn',on:'--on-dark',steps:['PA',null,'SN',null,'PA',null,'SN',null],easy:'Leichte Version: statt Schnipsen zwei Finger leise auf die Handfläche. Dieser Teil ist bewusst leise.'},
+  D:{name:'Batucada-Finale',c:'--c-br',on:'--on-dark',steps:['ST','PA','BR','PA','ST','PA','BR','PA'],easy:'Leichte Version: Patschen weglassen, nur Stampfen und Brust. Oder in drei Gruppen aufteilen (siehe Tipps).'},
+};
+const DEF=[
+  {name:'Intro',g:'I',t:0,cue:'Der Rhythmus läuft an. Leise mitschnalzen.'},
+  {name:'Refrain 1',g:'A',t:13.9,cue:'Laut! Alle Stimmen singen zusammen.'},
+  {name:'Ruhiger Teil 1',g:'C',t:35.86,cue:'Die Musik wird leiser, das Klavier tritt hervor.'},
+  {name:'Aufbau 1',g:'B',t:57.65,cue:'Es wird wieder lauter. Gleich kommt der Refrain.'},
+  {name:'Refrain 2',g:'A',t:65.76,cue:'Der Refrain ist zurück. Wieder kräftig!'},
+  {name:'Ruhiger Teil 2',g:'C',t:90.33,cue:'Noch einmal leise. Gut auf die Musik hören.'},
+  {name:'Aufbau 2',g:'B',t:112.16,cue:'Es wird lauter. Gleich kommt das Finale.'},
+  {name:'Finale',g:'D',t:120.23,cue:'Letzter Refrain. Jetzt sind wir die ganze Trommelgruppe! Am Ende mit der Musik leiser werden.'},
+];
+/* Schläge der Aufnahme von 1966 (2:38), am Bass gemessen */
+const REC={dur:158.3,beats:[0.33,1.02,1.71,2.40,3.01,3.62,4.27,4.98,5.68,6.36,7.05,7.73,8.43,9.13,9.80,10.48,11.17,11.87,12.52,13.25,13.90,14.57,15.27,15.93,16.61,17.29,17.97,18.63,19.30,19.96,20.65,21.32,22.01,22.68,23.35,24.06,24.74,25.39,26.08,26.76,27.43,28.11,28.80,29.48,30.15,30.85,31.53,32.21,32.87,33.56,34.32,35.05,35.86,36.55,37.25,37.95,38.64,39.28,40.00,40.70,41.35,42.06,42.76,43.43,44.12,44.80,45.49,46.20,46.89,47.57,48.23,48.93,49.60,50.28,50.99,51.64,52.34,53.01,53.72,54.39,55.07,55.73,56.37,57.03,57.65,58.32,58.99,59.66,60.33,61.02,61.71,62.37,63.05,63.74,64.42,65.09,65.76,66.44,67.10,67.78,68.46,69.14,69.83,70.51,71.20,71.88,72.55,73.24,73.92,74.60,75.28,75.95,76.64,77.31,77.99,78.68,79.38,80.06,80.74,81.44,82.09,82.76,83.45,84.13,84.79,85.50,86.18,86.85,87.54,88.19,88.91,89.63,90.33,91.02,91.73,92.40,93.07,93.77,94.46,95.13,95.81,96.50,97.15,97.83,98.52,99.22,99.90,100.58,101.27,101.94,102.63,103.32,104.00,104.68,105.36,106.05,106.72,107.40,108.09,108.75,109.42,110.08,110.76,111.46,112.16,112.83,113.52,114.17,114.86,115.52,116.23,116.90,117.56,118.23,118.92,119.59,120.23,120.89,121.58,122.19,122.87,123.55,124.23,124.92,125.58,126.26,126.94,127.62,128.27,128.97,129.65,130.35,131.02,131.70,132.38,133.06,133.74,134.44,135.13,135.81,136.46,137.13,137.81,138.47,139.15,139.80,140.47,141.15,141.84,142.52,143.21,143.92,144.59,145.26,145.93,146.60,147.27,147.95,148.64,149.32,150.00,150.68,151.38,152.06,152.72,153.41,154.08,154.76,155.43,156.11,156.79,157.47,158.15]};
+const DEF_END=158.3;
+let SECS=DEF.map(s=>({...s})), END=DEF_END;
+try{const s=JSON.parse(localStorage.getItem('mqn-times-66')||'null');if(s&&s.times&&s.times.length===SECS.length){s.times.forEach((t,i)=>SECS[i].t=t);END=s.end||DEF_END}}catch(e){}
+function saveTimes(){try{localStorage.setItem('mqn-times-66',JSON.stringify({times:SECS.map(s=>s.t),end:END}))}catch(e){}}
+
+const $=id=>document.getElementById(id);
+const fmt=s=>{s=Math.max(0,Math.floor(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const parse=v=>{const m=String(v).trim().match(/^(\d+):(\d{1,2})$/);if(m)return +m[1]*60+ +m[2];const n=parseFloat(v);return isNaN(n)?null:n};
+const vars=(c,on)=>`--elc:var(${c});--elon:var(${on})`;
+const COUNTS=['1','+','2','+','3','+','4','+'];
+
+function renderSteps(box,gid){
+  const steps=GR[gid].steps;
+  box.innerHTML=steps.map((e,i)=>e?`<div class="tile" style="${vars(EL[e].c,EL[e].on)}">${pic(e)}<span class="w">${EL[e].w}</span><span class="n">${COUNTS[i]}</span></div>`
+    :`<div class="tile rest"><span class="w">·</span><span class="n">${COUNTS[i]}</span></div>`).join('');
+  box._tiles=[...box.children];box._on=-2;
+}
+function lightStep(box,i){if(box._on===i)return;box._tiles.forEach((t,k)=>t.classList.toggle('on',k===i));box._on=i}
+
+/* ---------- Audio ---------- */
+let ctx,noiseBuf;
+function ensureCtx(){if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();noiseBuf=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}if(ctx.state==='suspended')ctx.resume();}
+function nz(t,dur,type,f,q,gain){const s=ctx.createBufferSource();s.buffer=noiseBuf;const fl=ctx.createBiquadFilter();fl.type=type;fl.frequency.value=f;fl.Q.value=q;const g=ctx.createGain();g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);s.connect(fl).connect(g).connect(ctx.destination);s.start(t);s.stop(t+dur+.02)}
+function tn(t,f0,f1,dur,gain,type='sine'){const o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dur);const g=ctx.createGain();g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+dur+.02)}
+function play(e,t){
+  if(e==='ST'){tn(t,110,42,.28,.9)}
+  else if(e==='PA'){nz(t,.07,'bandpass',900,.8,.8);tn(t,190,120,.06,.3)}
+  else if(e==='KL'){nz(t,.01,'bandpass',1700,1,.7);nz(t+.008,.09,'bandpass',1800,1.2,.9)}
+  else if(e==='SN'){nz(t,.035,'highpass',3500,.7,.6);tn(t,2300,2200,.04,.15)}
+  else if(e==='BR'){tn(t,150,85,.13,.7);nz(t,.04,'lowpass',600,1,.4)}
+  else if(e==='SC'){tn(t,1100,650,.035,.5);nz(t,.015,'bandpass',1400,2,.4)}
+}
+
+/* ---------- Tabs ---------- */
+let tab='live';
+try{tab=localStorage.getItem('mqn-tab')||'live'}catch(e){}
+function setTab(t){tab=t;document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));['live','el','gr','ab'].forEach(k=>$('tab-'+k).hidden=k!==t);try{localStorage.setItem('mqn-tab',t)}catch(e){}if(t!=='gr')pracStop();if(t!=='ab')calCancel()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+
+/* ---------- Elemente ---------- */
+$('cards').innerHTML=Object.entries(EL).map(([k,e])=>`<article class="card"><div class="swatch" style="${vars(e.c,e.on)}">${e.w}${pic(k)}</div><h3>${e.name}</h3><p class="inst">Klingt ${e.inst}</p><p>${e.how}</p><button class="btn" data-snd="${k}">▶ Anhören</button></article>`).join('');
+$('cards').addEventListener('click',ev=>{const b=ev.target.closest('[data-snd]');if(!b)return;ensureCtx();const k=b.dataset.snd,t=ctx.currentTime+.03;if(k==='ST'){play('ST',t);play('ST',t+.4)}else for(let i=0;i<4;i++)play(k,t+i*.22)});
+
+/* ---------- Grooves üben ---------- */
+const prac={g:'A',bpm:84,playing:false,t0:0,next:0,timer:null};
+$('chips').innerHTML=Object.entries(GR).map(([k,g])=>`<button class="chip" data-g="${k}" aria-pressed="${k===prac.g}" style="${vars(g.c,g.on)}"><i></i>${g.name}</button>`).join('');
+$('chips').addEventListener('click',ev=>{const b=ev.target.closest('[data-g]');if(!b)return;prac.g=b.dataset.g;document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));renderPrac();if(prac.playing){pracStop();pracStart()}});
+function renderPrac(){renderSteps($('prSteps'),prac.g);$('prEasy').textContent=GR[prac.g].easy}
+function sched(){const sd=60/prac.bpm/2;while(prac.t0+prac.next*sd<ctx.currentTime+.12){const i=prac.next%8,t=prac.t0+prac.next*sd,e=GR[prac.g].steps[i];if(e)play(e,t);if($('prClick').checked&&i%2===0)tn(t,i===0?1600:1100,i===0?1600:1100,.03,.12,'square');prac.next++}}
+function pracStart(){ensureCtx();prac.t0=ctx.currentTime+.08;prac.next=0;prac.playing=true;prac.timer=setInterval(sched,25);sched();$('prPlay').textContent='■ Stopp'}
+function pracStop(){if(!prac.playing)return;prac.playing=false;clearInterval(prac.timer);$('prPlay').textContent='▶ Abspielen';lightStep($('prSteps'),-1)}
+$('prPlay').onclick=()=>prac.playing?pracStop():pracStart();
+$('prSong').onclick=()=>{const v=Math.max(60,Math.min(140,live.bpm));$('prBpm').value=v;$('prBpm').dispatchEvent(new Event('input'))};
+$('prBpm').oninput=e=>{prac.bpm=+e.target.value;$('prBpmVal').textContent=prac.bpm;if(prac.playing){pracStop();pracStart()}};
+renderPrac();
+
+/* ---------- Mitspielen ---------- */
+const live={running:false,startedAt:0,paused:0,bpm:88,beatZero:0,cur:-1,taps:[],useMap:true};
+try{const b=+localStorage.getItem('mqn-bpm');if(b>=40&&b<=200)live.bpm=b}catch(e){}
+
+/* Song-Datei: Wiedergabe über Web Audio, Takt aus der Aufnahme */
+const song={buf:null,name:'',raw:null,beats:null,low:null,fs:0,hop:0,off:0,down:0,auto:0,src:null,startAt:0,offset:0,k:0,shift:0,nudge:0,state:'empty'};
+try{const o=JSON.parse(localStorage.getItem('mqn-song')||'null');if(o){song.k=o.k||0;song.shift=o.shift||0;song.nudge=o.nudge||0}}catch(e){}
+function saveSongPrefs(){try{localStorage.setItem('mqn-song',JSON.stringify({k:song.k,shift:song.shift,nudge:song.nudge}))}catch(e){}}
+const outLat=()=>ctx?(ctx.outputLatency||ctx.baseLatency||0):0;
+function audioPos(){return song.offset+Math.max(0,ctx.currentTime-song.startAt)}
+function startSrc(){ensureCtx();const x=ctx.createBufferSource();x.buffer=song.buf;x.connect(ctx.destination);song.startAt=ctx.currentTime+.05;x.start(song.startAt,Math.min(song.offset,song.buf.duration-.01));song.src=x}
+function stopSrc(){if(song.src){try{song.src.stop()}catch(e){}song.src.disconnect();song.src=null}}
+
+function elapsed(){
+  if(song.buf)return live.running?Math.max(0,audioPos()-outLat()+song.nudge):song.offset;
+  return live.running?(performance.now()-live.startedAt)/1000:live.paused}
+function setElapsed(e){
+  if(song.buf){song.offset=Math.max(0,e);if(live.running){stopSrc();startSrc()}return}
+  if(live.running)live.startedAt=performance.now()-e*1000;else live.paused=e}
+function secAt(e){let i=0;for(let k=0;k<SECS.length;k++)if(e>=SECS[k].t)i=k;return i}
+function setBpm(b){live.bpm=Math.max(40,Math.min(200,Math.round(b)));$('bpmVal').textContent=live.bpm+' BPM';try{localStorage.setItem('mqn-bpm',live.bpm)}catch(e){}}
+function toast(t){$('toast').textContent=t}
+function buildBar(){
+  const bar=$('segBar');bar.querySelectorAll('.seg').forEach(s=>s.remove());
+  SECS.forEach((s,i)=>{const end=i<SECS.length-1?SECS[i+1].t:END;const b=document.createElement('button');b.className='seg';b.style.cssText=vars(GR[s.g].c,GR[s.g].on)+`;flex:${Math.max(.5,end-s.t)} 1 0`;b.textContent=s.name;b.title=s.name+' · '+fmt(s.t);b.onclick=()=>jump(i);bar.insertBefore(b,$('playhead'))});
+  $('lvEnd').textContent=fmt(END);
+}
+function showSection(i){
+  live.cur=i;const s=SECS[i],g=GR[s.g];
+  $('lvPart').textContent=s.name;$('lvGroove').textContent=g.name;$('lvCue').textContent=s.cue;
+  renderSteps($('lvSteps'),s.g);
+  document.querySelectorAll('.seg').forEach((el,k)=>el.classList.toggle('cur',k===i));
+  const n=SECS[i+1];
+  $('lvNext').innerHTML=n?`<span class="eyebrow">Gleich</span><b>${n.name}: ${GR[n.g].name}</b><span class="dots">${GR[n.g].steps.map(e=>e?`<i class="dot" style="${vars(EL[e].c,EL[e].on)}"></i>`:'<i class="dot rest"></i>').join('')}</span><span class="count" id="lvCount"></span>`
+    :`<span class="eyebrow">Geschafft</span><b>Applaus für alle!</b>`;
+}
+function playLabel(){$('bPlay').innerHTML=live.running?'❚❚ Pause <kbd>Leertaste</kbd>':(elapsed()>=END-.05&&elapsed()>0?'▶ Nochmal <kbd>Leertaste</kbd>':'▶ Start <kbd>Leertaste</kbd>')}
+function jump(i){i=Math.max(0,Math.min(SECS.length-1,i));setElapsed(SECS[i].t);live.beatZero=SECS[i].t;showSection(i)}
+function toggle(){
+  if(song.buf){
+    if(live.running){song.offset=audioPos();stopSrc();live.running=false}
+    else{if(song.offset>=END-.1)song.offset=0;startSrc();live.running=true}
+  }else{
+    if(live.running){live.paused=elapsed();live.running=false}
+    else{if(live.paused>=END)live.paused=0,live.beatZero=0;live.startedAt=performance.now()-live.paused*1000;live.running=true}
+  }
+  playLabel();
+}
+function stopAll(atEnd){
+  if(song.buf){stopSrc();song.offset=atEnd?END:0}else{live.paused=atEnd?END:0;live.beatZero=0}
+  live.running=false;playLabel();
+}
+function tap(){
+  if(song.buf){toast('Das Tempo kommt automatisch aus der Song-Datei.');return}
+  if(!live.running){toast('Erst den Song und Start drücken, dann im Takt tippen.');return}
+  const e=elapsed(),T=live.taps;if(T.length&&e-T[T.length-1]>1.5)T.length=0;T.push(e);
+  if(T.length<4){toast(`Weiter tippen: noch ${4-T.length}× (zähle 1 – 2 – 3 – 4)`);return}
+  const last=T.slice(-4),beat=(last[3]-last[0])/3;setBpm(60/beat);live.beatZero=last[3]-3*(60/live.bpm);live.useMap=false;
+  toast(`Tempo ${live.bpm} BPM, Takt neu ausgerichtet.`);T.length=0;
+}
+
+/* ---- Takterkennung ---- */
+function makeFFT(N){const lev=Math.log2(N),rev=new Uint32Array(N);for(let i=0;i<N;i++){let r=0;for(let b=0;b<lev;b++)r|=((i>>b)&1)<<(lev-1-b);rev[i]=r}
+  const co=new Float64Array(N/2),si=new Float64Array(N/2);for(let i=0;i<N/2;i++){co[i]=Math.cos(2*Math.PI*i/N);si[i]=-Math.sin(2*Math.PI*i/N)}
+  return(re,im)=>{for(let i=0;i<N;i++){const j=rev[i];if(j>i){let t=re[i];re[i]=re[j];re[j]=t;t=im[i];im[i]=im[j];im[j]=t}}
+    for(let size=2;size<=N;size<<=1){const h=size>>1,st=N/size;for(let i=0;i<N;i+=size)for(let j=0,k=0;j<h;j++,k+=st){const a=i+j,b=a+h,tr=re[b]*co[k]-im[b]*si[k],ti=re[b]*si[k]+im[b]*co[k];re[b]=re[a]-tr;im[b]=im[a]-ti;re[a]+=tr;im[a]+=ti}}}}
+function analyzeBuffer(buf){
+  const sr=buf.sampleRate,ch=buf.numberOfChannels,d=Math.max(1,Math.floor(sr/11000)),n=Math.floor(buf.length/d),fs=sr/d;
+  const x=new Float32Array(n);
+  for(let c=0;c<ch;c++){const a=buf.getChannelData(c);for(let i=0;i<n;i++){let t=0;const o=i*d;for(let j=0;j<d;j++)t+=a[o+j];x[i]+=t/(d*ch)}}
+  const N=512,hop=128,F=Math.max(0,Math.floor((n-N)/hop)),fps=fs/hop,fft=makeFFT(N);
+  const win=new Float64Array(N);for(let i=0;i<N;i++)win[i]=.5-.5*Math.cos(2*Math.PI*i/N);
+  const re=new Float64Array(N),im=new Float64Array(N),prev=new Float64Array(N/2);
+  const on=new Float32Array(F),low=new Float32Array(F),lowBin=Math.max(2,Math.round(160/fs*N));
+  for(let f=0;f<F;f++){const o=f*hop;for(let i=0;i<N;i++){re[i]=x[o+i]*win[i];im[i]=0}fft(re,im);
+    let t=0,l=0;for(let k=1;k<N/2;k++){const m=Math.log(1+100*Math.hypot(re[k],im[k])),dd=m-prev[k];if(dd>0){t+=dd;if(k<=lowBin)l+=dd}prev[k]=m}
+    on[f]=f?t:0;low[f]=f?l:0}
+  const W=Math.round(fps*.25),cs=new Float64Array(F+1);for(let i=0;i<F;i++)cs[i+1]=cs[i]+on[i];
+  const o2=new Float32Array(F);for(let i=0;i<F;i++){const a=Math.max(0,i-W),b=Math.min(F,i+W+1);o2[i]=Math.max(0,on[i]-(cs[b]-cs[a])/(b-a))}
+  let mu=0;for(let i=0;i<F;i++)mu+=o2[i];mu/=F||1;let sd=0;for(let i=0;i<F;i++)sd+=(o2[i]-mu)**2;sd=Math.sqrt(sd/(F||1))||1;for(let i=0;i<F;i++)o2[i]/=sd;
+  const minL=Math.floor(fps*60/180),maxL=Math.ceil(fps*60/55),ac=new Float64Array(maxL+2);
+  for(let L=minL-1;L<=maxL+1;L++){let t=0;for(let i=0;i+L<F;i++)t+=o2[i]*o2[i+L];ac[L]=t/Math.max(1,F-L)}
+  let best=-Infinity,bL=minL;for(let L=minL;L<=maxL;L++){const bpm=60*fps/L,w=Math.exp(-.5*(Math.log2(bpm/100)/.9)**2),v=ac[L]*w;if(v>best){best=v;bL=L}}
+  const A=ac[bL-1],B=ac[bL],Cc=ac[bL+1],den=A-2*B+Cc,P=bL+(den?.5*(A-Cc)/den:0);
+  // Schläge am Bass ausrichten: tiefe Einsätze zählen stark, alle anderen schwach
+  const cl=new Float64Array(F+1);for(let i=0;i<F;i++)cl[i+1]=cl[i]+low[i];
+  const ol=new Float32Array(F);for(let i=0;i<F;i++){const a=Math.max(0,i-W),b=Math.min(F,i+W+1);ol[i]=Math.max(0,low[i]-(cl[b]-cl[a])/(b-a))}
+  let lm=0;for(let i=0;i<F;i++)lm+=ol[i];lm/=F||1;let ls=0;for(let i=0;i<F;i++)ls+=(ol[i]-lm)**2;ls=Math.sqrt(ls/(F||1))||1;
+  const env=new Float32Array(F);for(let i=0;i<F;i++)env[i]=ol[i]/ls+.05*o2[i];
+  const loc=new Float32Array(F),g=Math.max(1,Math.round(P/32));
+  for(let i=0;i<F;i++){let t=0,ws=0;for(let k=-2*g;k<=2*g;k++){const j=i+k;if(j<0||j>=F)continue;const w=Math.exp(-.5*(k/g)**2);t+=env[j]*w;ws+=w}loc[i]=t/ws}
+  const C=new Float32Array(F),back=new Int32Array(F).fill(-1),tight=100;
+  for(let t=0;t<F;t++){let bv=-Infinity,bi=-1;const lo=Math.max(0,Math.round(t-2*P)),hi=Math.round(t-P/2);
+    for(let u=lo;u<=hi;u++){const v=C[u]-tight*Math.log((t-u)/P)**2;if(v>bv){bv=v;bi=u}}
+    if(bi>=0){C[t]=loc[t]+bv;back[t]=bi}else C[t]=loc[t]}
+  let e=F-1,ev=-Infinity;for(let t=Math.max(0,Math.floor(F-P));t<F;t++)if(C[t]>ev){ev=C[t];e=t}
+  const fr=[];for(let t=e;t>=0;t=back[t])fr.push(t);fr.reverse();
+  const off=N/2/fs;
+  return{raw:fr.map(f=>f*hop/fs+off),low,fs,hop,off};
+}
+const med=a=>{const s=[...a].sort((x,y)=>x-y);return s[s.length>>1]};
+function lowAt(t){const f=Math.round((t-song.off)*song.fs/song.hop);let m=0;for(let k=f-2;k<=f+2;k++)if(k>=0&&k<song.low.length&&song.low[k]>m)m=song.low[k];return m}
+function buildBeats(){
+  let b=song.raw.slice();
+  for(let i=0;i<song.k;i++){const o=[];for(let j=0;j<b.length;j++){o.push(b[j]);if(j<b.length-1)o.push((b[j]+b[j+1])/2)}b=o}
+  for(let i=0;i>song.k;i--){let s0=0,s1=0;b.forEach((t,j)=>{if(j%2)s1+=lowAt(t);else s0+=lowAt(t)});b=b.filter((t,j)=>j%2===(s1>s0?1:0))}
+  if(b.length<2){song.beats=null;return}
+  const per=med(b.slice(1).map((t,i)=>t-b[i]));
+  while(b[0]>0)b.unshift(b[0]-per);
+  const dur=song.buf.duration;while(b[b.length-1]<dur+1)b.push(b[b.length-1]+per);
+  const sc=[0,0,0,0];b.forEach((t,j)=>{if(t>0&&t<dur)sc[j%4]+=lowAt(t)});
+  song.auto=sc.indexOf(Math.max(...sc));
+  if(Math.abs(dur-REC.dur)<1.5){let bi=0;b.forEach((t,j)=>{if(Math.abs(t-REC.beats[0])<Math.abs(b[bi]-REC.beats[0]))bi=j});song.auto=bi%4}
+  song.down=((song.auto+song.shift)%4+4)%4;
+  song.beats=b;setBpm(60/per);
+}
+function stepAt(e,B=song.beats,down=song.down){
+  if(!B||e<B[0])return -1;if(e>=B[B.length-1])return -1;
+  let lo=0,hi=B.length-1;while(lo<hi-1){const m=(lo+hi)>>1;if(B[m]<=e)lo=m;else hi=m}
+  const frac=(e-B[lo])/(B[lo+1]-B[lo]);
+  return(((lo-down)%4+4)%4)*2+(frac>=.5?1:0);
+}
+
+/* ---- Song laden ---- */
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderSongBox(){
+  const b=$('songBox');b.classList.toggle('ready',song.state==='ready');
+  const pick=`<label class="btn${song.state==='ready'?' sm':' primary'}" for="songFile" tabindex="0" id="sbPick">${song.state==='ready'?'Andere Datei':'Song-Datei wählen'}</label>`;
+  if(song.state==='empty')b.innerHTML=`<div class="t"><b>Song laden, dann passt das Tempo automatisch</b><span>Die MP3-Datei von „Mas Que Nada“ hierher ziehen oder auswählen. Die Präsentation spielt den Song dann selbst ab, misst das Tempo und hält die Kacheln im Takt. Die Datei bleibt auf diesem Computer.</span></div>${pick}`;
+  else if(song.state==='busy')b.innerHTML=`<div class="t"><b><i class="spin"></i>Tempo wird gemessen …</b><span>${esc(song.name)}</span></div>`;
+  else if(song.state==='error')b.innerHTML=`<div class="t"><b>Die Datei konnte nicht gelesen werden</b><span>Bitte eine Audio-Datei wählen, zum Beispiel MP3, M4A oder WAV.</span></div>${pick}`;
+  else{
+    const nd=Math.round(song.nudge*1000);
+    b.innerHTML=`<div class="t"><b>♪ ${esc(song.name)}</b><span>${live.bpm} BPM erkannt · Takt läuft automatisch mit${nd?` · Bild ${nd>0?'+':''}${nd} ms`:''}</span></div>
+    <div class="sb-actions">
+      <button class="btn sm" data-act="half" title="Wenn die Kacheln doppelt so schnell wie die Musik laufen">Kacheln zu schnell</button>
+      <button class="btn sm" data-act="double" title="Wenn die Kacheln halb so schnell wie die Musik laufen">Kacheln zu langsam</button>
+      <button class="btn sm" data-act="shift" title="Stampfen und Klatschen tauschen die Schläge">Schlag verschieben</button>
+      <button class="btn sm" data-act="early" title="Kacheln leuchten vor dem Schlag auf">Bild zu früh</button>
+      <button class="btn sm" data-act="late" title="Kacheln leuchten nach dem Schlag auf, z. B. bei Bluetooth-Boxen">Bild zu spät</button>
+      ${pick}
+    </div>`;
+  }
+  const manual=!song.buf;$('bTap').hidden=!manual;$('bpmBox').hidden=!manual;
+  $('lvHint').innerHTML=manual
+    ?'Ohne Song-Datei: Die Originalaufnahme von 1966 in einem anderen Programm starten und im selben Moment hier auf Start drücken. Die Kacheln folgen dann den gemessenen Schlägen dieser Aufnahme. Bei einer anderen Aufnahme im Refrain viermal <b>T</b> auf „1 – 2 – 3 – 4“ tippen. Am genauesten geht es mit der Song-Datei oben.'
+    :'Start drücken, dann läuft der Song aus dieser Präsentation. Ein Klick auf die farbige Leiste oder ← → springt mit der Musik zu einem anderen Teil. Pro Fußwippen sollten zwei Kacheln aufleuchten.';
+}
+async function loadSong(blob,name,fromStore){
+  ensureCtx();stopSrc();live.running=false;playLabel();
+  song.name=name;song.state='busy';renderSongBox();
+  await new Promise(r=>setTimeout(r,50));
+  try{
+    const data=await blob.arrayBuffer();
+    const buf=await new Promise((res,rej)=>{const p=ctx.decodeAudioData(data,res,rej);if(p&&p.then)p.then(res,rej)});
+    await new Promise(r=>setTimeout(r,20));
+    const a=analyzeBuffer(buf);
+    Object.assign(song,{buf,raw:a.raw,low:a.low,fs:a.fs,hop:a.hop,off:a.off,offset:0});
+    if(!fromStore){song.k=0;song.shift=0;song.nudge=0;saveSongPrefs();idbSet('song',{name,blob})}
+    buildBeats();END=buf.duration;buildBar();showSection(0);song.state='ready';
+    toast(song.beats?'':'Im Song wurde kein klarer Takt gefunden. Bitte eine andere Aufnahme probieren.');
+  }catch(err){song.buf=null;song.state='error';if(fromStore)song.state='empty'}
+  renderSongBox();playLabel();
+}
+$('songFile').addEventListener('change',e=>{const f=e.target.files[0];if(f)loadSong(f,f.name.replace(/\.[^.]+$/,'').replace(/_+/g,' ').trim(),false);e.target.value=''});
+$('songBox').addEventListener('click',e=>{
+  const a=e.target.closest('[data-act]')?.dataset.act;if(!a||!song.buf)return;
+  if(a==='half'&&song.k>-2)song.k--;else if(a==='double'&&song.k<2)song.k++;
+  else if(a==='shift')song.shift=(song.shift+1)%4;
+  else if(a==='early')song.nudge=Math.round((song.nudge-.04)*1000)/1000;
+  else if(a==='late')song.nudge=Math.round((song.nudge+.04)*1000)/1000;
+  buildBeats();saveSongPrefs();renderSongBox();
+});
+$('songBox').addEventListener('keydown',e=>{if(e.target.id==='sbPick'&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();$('songFile').click()}});
+['dragenter','dragover'].forEach(t=>$('songBox').addEventListener(t,e=>{e.preventDefault();$('songBox').classList.add('drag')}));
+['dragleave','drop'].forEach(t=>$('songBox').addEventListener(t,e=>{e.preventDefault();$('songBox').classList.remove('drag')}));
+$('songBox').addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)loadSong(f,f.name.replace(/\.[^.]+$/,'').replace(/_+/g,' ').trim(),false)});
+
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('mqn',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function idbSet(k,v){try{const db=await idb();await new Promise((res,rej)=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}catch(e){}}
+async function idbGet(k){try{const db=await idb();return await new Promise((res,rej)=>{const r=db.transaction('kv').objectStore('kv').get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}catch(e){return null}}
+
+$('bPlay').onclick=toggle;
+$('bPrev').onclick=()=>{const e=elapsed(),i=secAt(e);jump(e-SECS[i].t>2?i:i-1)};
+$('bNextPart').onclick=()=>jump(secAt(elapsed())+1);
+$('bTap').onclick=tap;
+$('bpmDown').onclick=()=>{setBpm(live.bpm-1);live.useMap=false};$('bpmUp').onclick=()=>{setBpm(live.bpm+1);live.useMap=false};
+$('bReset').onclick=()=>{stopAll(false);showSection(0)};
+$('bFull').onclick=()=>{const d=document;(d.fullscreenElement?d.exitFullscreen():d.documentElement.requestFullscreen?.())?.catch?.(()=>{})};
+
+function loop(){
+  if(tab==='live'){
+    let e=elapsed();
+    if(live.running&&e>=END){stopAll(true);e=END}
+    const i=secAt(e);if(i!==live.cur)showSection(i);
+    const box=$('lvSteps'),sd=60/live.bpm/2;
+    const started=live.running||e>0;
+    let st=-1;
+    if(song.beats){if(started)st=stepAt(e)}
+    else if(live.useMap){if(started)st=stepAt(e,REC.beats,0)}
+    else if(started&&e>=live.beatZero)st=Math.floor((e-live.beatZero)/sd)%8;
+    box.classList.toggle('idle',!started);
+    lightStep(box,st);
+    const p=$('pulse');p.classList.toggle('on',st>=0&&st%2===0&&st!==0);p.classList.toggle('one',st===0);
+    $('lvTime').textContent=fmt(e);
+    $('playhead').style.left=Math.min(100,e/END*100)+'%';
+    const n=SECS[i+1],c=$('lvCount');
+    if(n&&c){const left=n.t-e;const soon=live.running&&left<=4;c.textContent=soon?'in '+Math.ceil(left):'';$('lvNext').classList.toggle('soon',soon)}
+  }
+  if(prac.playing&&ctx){const sd=60/prac.bpm/2,x=ctx.currentTime-prac.t0;lightStep($('prSteps'),x>=0?Math.floor(x/sd)%8:-1)}
+  requestAnimationFrame(loop);
+}
+
+/* ---------- Ablauf / Kalibrieren ---------- */
+function renderTable(){
+  $('abBody').innerHTML=SECS.map((s,i)=>`<tr><td><b>${s.name}</b></td><td><input id="t-${i}" data-i="${i}" value="${fmt(s.t)}" aria-label="Start ${s.name}"></td><td><span class="gtag" style="${vars(GR[s.g].c,GR[s.g].on)}"><i></i>${GR[s.g].name}</span></td><td>${s.cue}</td></tr>`).join('')
+   +`<tr><td><b>Ende</b></td><td><input id="t-end" data-i="end" value="${fmt(END)}" aria-label="Ende"></td><td></td><td>Song ist vorbei.</td></tr>`;
+}
+$('abBody').addEventListener('change',ev=>{const inp=ev.target;const v=parse(inp.value);if(v===null){inp.value='?';return}if(inp.dataset.i==='end')END=v;else SECS[+inp.dataset.i].t=v;SECS.sort((a,b)=>a.t-b.t);saveTimes();renderTable();buildBar();showSection(secAt(elapsed()))});
+$('abDefault').onclick=()=>{SECS=DEF.map(s=>({...s}));END=DEF_END;saveTimes();renderTable();buildBar();showSection(0);toast('')};
+const cal={on:false,step:0,t0:0,times:[]};
+function calShow(){
+  const n=SECS.length;$('calStep').textContent=`Schritt ${cal.step+1} von ${n+1}`;
+  if(cal.step===0){$('calText').textContent=song.buf?'Drück auf den Knopf, dann startet der geladene Song von vorn.':'Starte den Song und drücke im selben Moment auf den Knopf.';$('calBtn').textContent=song.buf?'Song starten':'Song läuft – Los!'}
+  else if(cal.step<n){$('calText').innerHTML=`Drücke, sobald <b>${SECS[cal.step].name}</b> beginnt (${SECS[cal.step].cue})`;$('calBtn').textContent=SECS[cal.step].name+' beginnt jetzt'}
+  else{$('calText').textContent='Drücke, wenn der Song zu Ende ist.';$('calBtn').textContent='Song ist zu Ende'}
+}
+function calPress(){
+  const now=performance.now(),n=SECS.length;
+  const calNow=()=>song.buf?audioPos():(now-cal.t0)/1000;
+  if(cal.step===0){cal.t0=now;cal.times=[0];if(song.buf){song.offset=0;stopSrc();startSrc();live.running=true;playLabel()}}
+  else if(cal.step<n)cal.times.push(calNow());
+  else{if(!song.buf)END=Math.round((now-cal.t0)/100)/10;cal.times.forEach((t,i)=>SECS[i].t=Math.round(t*10)/10);saveTimes();renderTable();buildBar();showSection(0);calCancel();$('calStart').textContent='✓ Gespeichert – nochmal einstellen';return}
+  cal.step++;calShow();
+}
+function calCancel(){cal.on=false;$('calBox').hidden=true}
+$('calStart').onclick=()=>{cal.on=true;cal.step=0;$('calBox').hidden=false;calShow();$('calBtn').focus()};
+$('calBtn').onclick=calPress;$('calCancel').onclick=calCancel;
+
+document.addEventListener('keydown',ev=>{
+  if(ev.target.tagName==='INPUT'&&ev.target.type!=='checkbox'&&ev.target.type!=='range')return;
+  if(tab==='ab'&&cal.on&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();calPress();return}
+  if(tab!=='live')return;
+  if(ev.key===' '){ev.preventDefault();toggle()}
+  else if(ev.key==='ArrowRight'){ev.preventDefault();$('bNextPart').click()}
+  else if(ev.key==='ArrowLeft'){ev.preventDefault();$('bPrev').click()}
+  else if(ev.key==='t'||ev.key==='T'){tap()}
+});
+
+setBpm(live.bpm);buildBar();showSection(0);renderTable();setTab(tab);renderSongBox();playLabel();requestAnimationFrame(loop);
+idbGet('song').then(v=>{if(v&&v.blob&&!song.buf)loadSong(v.blob,v.name||'Song',true)});
+</script>
+
+</body></html>
